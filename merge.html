@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merge PDF - Documentor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-900">
+
+  <div class="max-w-xl mx-auto mt-20 p-6 bg-white shadow-lg rounded-xl">
+    <h2 class="text-2xl font-bold text-center mb-4 text-blue-600">Merge PDF Files</h2>
+
+    <input type="file" id="pdfFiles" multiple accept=".pdf"
+      class="border rounded-lg w-full p-3 mb-4" />
+
+    <button onclick="mergePDF()"
+      class="bg-blue-600 text-white w-full p-3 rounded-lg font-semibold hover:bg-blue-700">
+      Merge & Download
+    </button>
+
+    <p id="message" class="text-center text-gray-600 mt-4"></p>
+  </div>
+
+  <script>
+    async function mergePDF() {
+      const files = document.getElementById("pdfFiles").files;
+      if (files.length < 2) {
+        document.getElementById("message").innerText = "Please upload at least 2 PDF files.";
+        return;
+      }
+
+      const formData = new FormData();
+      for (let file of files) {
+        formData.append("files", file);
+      }
+
+      document.getElementById("message").innerText = "Merging... Please wait ⏳";
+
+      const res = await fetch("http://localhost:5000/merge", {
+        method: "POST",
+        body: formData,
+      });
+
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "merged.pdf";
+      link.click();
+
+      document.getElementById("message").innerText = "✅ Completed!";
+    }
+  </script>
+
+</body>
+</html>
