@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Split PDF - Documentor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-900">
+
+  <!-- Navbar -->
+  <header class="flex justify-between items-center p-6 bg-white shadow">
+    <h1 class="text-2xl font-bold text-blue-600">
+      <a href="index.html">Documentor</a>
+    </h1>
+  </header>
+
+  <!-- Page Content -->
+  <section class="max-w-2xl mx-auto bg-white p-8 mt-12 rounded-xl shadow">
+    <h2 class="text-2xl font-bold text-center mb-6">Split PDF</h2>
+
+    <input type="file" id="pdfFile" accept="application/pdf"
+      class="w-full border p-3 rounded mb-4">
+
+    <input type="text" id="pagesInput"
+      class="w-full border p-3 rounded mb-4"
+      placeholder="Enter page numbers e.g. 1,3,5">
+
+    <button onclick="splitPDF()"
+      class="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700">
+      Split PDF
+    </button>
+
+    <p class="text-gray-500 text-sm mt-4">Example: Enter 1,3,5 → new PDF will include pages 1,3,5 only</p>
+  </section>
+
+  <script>
+    async function splitPDF() {
+      const file = document.getElementById("pdfFile").files[0];
+      const pages = document.getElementById("pagesInput").value;
+
+      if (!file || !pages) {
+        alert("Please select a PDF and enter pages!");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("pdf", file);
+      formData.append("pages", pages);
+
+      const res = await fetch("http://localhost:5000/api/split-pdf", {
+        method: "POST",
+        body: formData
+      });
+
+      if (res.ok) {
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "split.pdf";
+        a.click();
+      } else {
+        alert("Error splitting PDF");
+      }
+    }
+  </script>
+
+</body>
+</html>
