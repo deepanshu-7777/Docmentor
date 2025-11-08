@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compress PDF - Documentor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-900">
+
+  <!-- Navbar -->
+  <header class="flex justify-between items-center p-6 bg-white shadow">
+    <h1 class="text-2xl font-bold text-blue-600">
+      <a href="index.html">Documentor</a>
+    </h1>
+  </header>
+
+  <!-- Page Content -->
+  <section class="max-w-2xl mx-auto bg-white p-8 mt-12 rounded-xl shadow text-center">
+    <h2 class="text-2xl font-bold mb-6">Compress PDF</h2>
+
+    <input type="file" id="pdfFile" accept="application/pdf"
+      class="w-full border p-3 rounded mb-4">
+
+    <select id="quality" class="w-full border p-3 rounded mb-4">
+      <option value="screen">Low Quality (Smallest Size)</option>
+      <option value="ebook">Medium Quality (Balanced)</option>
+      <option value="printer">High Quality (Larger File)</option>
+    </select>
+
+    <button id="compressBtn"
+      class="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700">
+      Compress PDF
+    </button>
+
+    <p class="text-gray-500 text-sm mt-4">
+      Choose compression level to balance quality and size.
+    </p>
+  </section>
+
+  <script>
+    async function compressPDF() {
+      const file = document.getElementById("pdfFile").files[0];
+      const quality = document.getElementById("quality").value;
+
+      if (!file) {
+        alert("Please upload a PDF file!");
+        return;
+      }
+
+      const beforeSize = (file.size / (1024 * 1024)).toFixed(2);
+
+      const formData = new FormData();
+      formData.append("pdf", file);
+      formData.append("quality", quality);
+
+      // Add progress overlay
+      document.body.insertAdjacentHTML(
+        "beforeend",
+        `
+        <div id="loadingOverlay" class="fixed inset-0 bg-black/50 flex flex-col items-center justify-center text-white">
+          <div class="w-64 bg-gray-200 rounded-full h-3 overflow-hidden mb-4">
+            <div id="progressBar" class="bg-blue-500 h-full w-0 transition-all duration-700"></div>
+          </div>
+          <p id="progressText" class="text-lg font-semibold">Compressing... 0%</p>
+        </div>`
+      );
+
+      const progressBar = document.getElementById("progressBar");
+      const progressText = document.getElementById("progressText");
+
+      // Simulate progress while backend runs
+      let percent = 0;
+      const fakeProgress = setInterval(() => {
+        if (percent < 95) {
+          percent += 5;
+          progressBar.style.width = percent + "%";
+          progressText.textContent = `Compressing... ${percent}%`;
+        }
+      }, 300);
+
+      try {
+        const res = await fetch("http://localhost:5000/api/compress-pdf", {
+          method: "POST",
+          body: formData
+        });
+
+        clearInterval(fakeProgress);
+
+        const overlay = document.getElementById("loadingOverlay");
+        if (overlay) overlay.remove();
+
+        if (res.ok) {
+          const blob = await res.blob();
+          const afterSize = (blob.size / (1024 * 1024)).toFixed(2);
+          const percentSaved = (((beforeSize - afterSize) / beforeSize) * 100).toFixed(1);
+
+          alert(`✅ Compressed successfully!\nReduced from ${beforeSize} MB → ${afterSize} MB (${percentSaved}% smaller)`);
+
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "compressed.pdf";
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+        } else {
+          const text = await res.text().catch(()=>null);
+          console.error("Server response:", text);
+          alert("❌ Error compressing PDF");
+        }
+      } catch (err) {
+        clearInterval(fakeProgress);
+        const overlay = document.getElementById("loadingOverlay");
+        if (overlay) overlay.remove();
+        console.error(err);
+        alert("❌ Error compressing PDF");
+      }
+    }
+
+    document.getElementById("compressBtn").addEventListener("click", compressPDF);
+  </script>
+
+</body>
+</html>

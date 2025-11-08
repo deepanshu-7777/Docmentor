@@ -10,12 +10,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "child_process": "^1.0.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "multer": "^2.0.2",
     "pdf-lib": "^1.17.1",
     "pdf-merger-js": "^5.1.2",
-    "pdfkit": "^0.17.2"
+    "pdfkit": "^0.17.2",
+    "sharp": "^0.34.5"
   }
 }
