@@ -4,70 +4,140 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Documentor - AI Powered Platform</title>
+
+  <!-- Tailwind with Dark Mode Support -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    }
+  </script>
+
+  <style>
+    a:hover h4 {
+      color: #2563eb; /* blue-600 hover color */
+    }
+  </style>
 </head>
 
-<body class="bg-gray-50 text-gray-900">
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-500">
+
   <!-- Navbar -->
-  <header class="flex justify-between items-center p-6 bg-white shadow">
-    <h1 class="text-2xl font-bold text-blue-600">Documentor</h1>
-    <nav class="space-x-6 font-medium">
-      <a href="#" class="hover:text-blue-600">Tools</a>
-      <a href="#" class="hover:text-blue-600">AI Features</a>
-      <a href="#" class="hover:text-blue-600">Login</a>
+  <header class="flex justify-between items-center p-6 bg-white dark:bg-gray-800 shadow transition-colors duration-500">
+    <h1 class="text-2xl font-bold text-blue-600 dark:text-blue-400">Documentor</h1>
+
+    <nav class="flex items-center space-x-6 font-medium">
+      <a href="#" class="hover:text-blue-600 dark:hover:text-blue-400">AI Features</a>
+      <a href="#" class="hover:text-blue-600 dark:hover:text-blue-400">Login</a>
+
+      <!-- Theme Toggle -->
+      <button id="theme-toggle" class="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+        <span id="theme-icon">🌞</span>
+        <span id="theme-text">Light Mode</span>
+      </button>
     </nav>
   </header>
 
   <!-- Hero Section -->
-  <section class="text-center py-20 bg-gradient-to-b from-blue-100 to-white">
-    <h2 class="text-4xl font-extrabold mb-4">Convert & Enhance Your Documents with AI</h2>
-    <p class="text-gray-600 text-lg mb-6">PDF Tools, Summarization & Text-to-Speech — All in One Place!</p>
+  <section class="text-center py-20 bg-gradient-to-b from-blue-100 to-white dark:from-gray-800 dark:to-gray-900 transition-colors duration-500">
+    <h2 class="text-4xl font-extrabold mb-4 text-gray-900 dark:text-white">Convert & Enhance Your Documents with AI</h2>
+    <p class="text-gray-600 dark:text-gray-300 text-lg mb-6">
+      PDF Tools, Summarization & Text-to-Speech — All in One Place!
+    </p>
     <div class="space-x-4">
       <button class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
         Get Started
       </button>
-      <button class="border border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50">
+      <button class="border border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 dark:hover:bg-gray-800">
         Try AI Features
       </button>
     </div>
   </section>
 
   <!-- Tools Grid -->
-  <section class="py-12 px-10">
-    <h3 class="text-2xl font-bold text-center mb-10">Our Smart Tools</h3>
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="p-6 bg-white shadow rounded-xl text-center hover:shadow-lg">
-        🔄 <h4 class="font-bold mt-2">Convert PDF</h4><p class="text-sm text-gray-600">PDF → Word/Excel</p>
-      </div>
-      <div class="p-6 bg-white shadow rounded-xl text-center hover:shadow-lg">
-       <a href="split.html" class="font-bold mt-2 text-blue-600 hover:underline">
-✂️ Split PDF
-</a>
+  <section class="py-12 px-10 bg-gray-50 dark:bg-gray-900 transition-colors duration-500">
+    <h3 class="text-3xl font-extrabold text-center mb-10 text-gray-800 dark:text-gray-100">Our Smart Tools</h3>
 
-      </div>
-      <div class="p-6 bg-white shadow rounded-xl text-center hover:shadow-lg">
-       <a href="merge.html" class="font-bold mt-2 text-blue-600 hover:underline">➕ Merge PDF</a>
+    <div class="grid md:grid-cols-3 gap-8">
 
+      <!-- Convert PDF -->
+      <div class="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-xl transition transform hover:scale-105 text-center cursor-pointer">
+        <div class="text-4xl mb-3">🔄</div>
+        <h4 class="text-xl font-bold text-blue-700 dark:text-blue-400">Convert PDF</h4>
+        <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">PDF → Word / Excel</p>
       </div>
-      <div class="p-6 bg-white shadow rounded-xl text-center hover:shadow-lg">
-       <a href="compress.html" class="font-bold mt-2 text-blue-600 hover:underline">
-🗜️ Compress PDF
-</a>
 
+      <!-- Split PDF -->
+      <a href="split.html" class="block p-8 bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-xl transition transform hover:scale-105 text-center">
+        <div class="text-4xl mb-3">✂️</div>
+        <h4 class="text-xl font-bold text-blue-700 dark:text-blue-400">Split PDF</h4>
+        <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">Extract specific pages</p>
+      </a>
+
+      <!-- Merge PDF -->
+      <a href="merge.html" class="block p-8 bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-xl transition transform hover:scale-105 text-center">
+        <div class="text-4xl mb-3">➕</div>
+        <h4 class="text-xl font-bold text-blue-700 dark:text-blue-400">Merge PDF</h4>
+        <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">Combine multiple PDFs</p>
+      </a>
+
+      <!-- Compress PDF -->
+      <a href="compress.html" class="block p-8 bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-xl transition transform hover:scale-105 text-center">
+        <div class="text-4xl mb-3">🗜️</div>
+        <h4 class="text-xl font-bold text-blue-700 dark:text-blue-400">Compress PDF</h4>
+        <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">Reduce file size</p>
+      </a>
+
+      <!-- PDF to Voice -->
+      <div class="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-xl transition transform hover:scale-105 text-center cursor-pointer">
+        <div class="text-4xl mb-3">🔊</div>
+        <h4 class="text-xl font-bold text-blue-700 dark:text-blue-400">PDF to Voice</h4>
+        <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">Listen to your document</p>
       </div>
-      <div class="p-6 bg-white shadow rounded-xl text-center hover:shadow-lg">
-        🔊 <h4 class="font-bold mt-2">PDF to Voice</h4>
+
+      <!-- Summarize PDF -->
+      <div class="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-xl transition transform hover:scale-105 text-center cursor-pointer">
+        <div class="text-4xl mb-3">🧠</div>
+        <h4 class="text-xl font-bold text-blue-700 dark:text-blue-400">Summarize PDF</h4>
+        <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">AI document summarization</p>
       </div>
-      <div class="p-6 bg-white shadow rounded-xl text-center hover:shadow-lg">
-        🧠 <h4 class="font-bold mt-2">Summarize PDF</h4>
-      </div>
+
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="text-center py-6 bg-gray-200 text-gray-700">
+  <footer class="text-center py-6 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors duration-500">
     © 2025 Documentor • AI Powered Document Converter
   </footer>
+
+  <!-- Theme Toggle Script -->
+  <script>
+    const toggleBtn = document.getElementById("theme-toggle");
+    const themeIcon = document.getElementById("theme-icon");
+    const themeText = document.getElementById("theme-text");
+
+    // Apply saved preference on load
+    if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+      document.documentElement.classList.add("dark");
+      themeIcon.textContent = "🌙";
+      themeText.textContent = "Dark Mode";
+    }
+
+    toggleBtn.addEventListener("click", () => {
+      const html = document.documentElement;
+      const isDark = html.classList.toggle("dark");
+
+      if (isDark) {
+        themeIcon.textContent = "🌙";
+        themeText.textContent = "Dark Mode";
+        localStorage.theme = "dark";
+      } else {
+        themeIcon.textContent = "🌞";
+        themeText.textContent = "Light Mode";
+        localStorage.theme = "light";
+      }
+    });
+  </script>
 
 </body>
 </html>
